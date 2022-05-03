@@ -1,0 +1,38 @@
+---
+title: "Portfolio 4 - Study 1 write-up"
+author: "Adam"
+date: "5/3/2022"
+output: html_document
+---
+
+###Set-up
+
+```{r packages, echo=TRUE, message=FALSE}
+library('psych')
+library('readr')
+library('reshape2')
+library('dplyr')
+library('lavaan')
+library('Rcpp')
+library('lme4')
+library('lmerTest')
+library('OpenMx')
+library('semPlot')
+library('tidyverse')
+library('Hmisc')
+```
+
+
+Now, we have to bring in the data from portfolio 1.
+
+```{r loading data, echo=TRUE, collapse=TRUE, message=FALSE}
+study1 <- read_csv("data/Study1_data_R_cleaned.csv")
+
+# Ensuring the dataframe is a tibble.
+as_tibble(study1)
+
+#Taking a look at the table.
+View(study1)
+```
+
+With the data present, I want to turn to writing up about the findings from the paper.
