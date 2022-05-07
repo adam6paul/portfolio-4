@@ -195,8 +195,13 @@ summary {
 </div>
 
 
-<p>###Set-up</p>
+<blockquote>
+<p>The purpose of this portfolio is to have a singular write-up of what we found during Study 1 of my thesis.</p>
+</blockquote>
+<div id="set-up" class="section level2">
+<h2>Set-up</h2>
 <pre class="r"><code>library(&#39;psych&#39;)
+library(&#39;readr&#39;)
 library(&#39;reshape2&#39;)
 library(&#39;dplyr&#39;)
 library(&#39;lavaan&#39;)
@@ -207,7 +212,8 @@ library(&#39;OpenMx&#39;)
 library(&#39;semPlot&#39;)
 library(&#39;tidyverse&#39;)
 library(&#39;Hmisc&#39;)</code></pre>
-<p>Now, we have to bring in the data from portfolio 1.</p>
+<div id="bringing-in-the-data" class="section level4">
+<h4>Bringing in the data</h4>
 <pre class="r"><code>study1 &lt;- read_csv(&quot;data/Study1_data_R_cleaned.csv&quot;)
 
 # Ensuring the dataframe is a tibble.
@@ -235,6 +241,240 @@ as_tibble(study1)
 
 #Taking a look at the table.
 View(study1)</code></pre>
+</div>
+</div>
+<div id="what-was-the-goal-of-study-1" class="section level2">
+<h2>What was the goal of Study 1?</h2>
+<p>The purpose of the first study was to examine whether students’ disclosure in class settings is associated with their belonging. Additionally, I aimed to assess whether the prompting of disclosure by the instructor or by norms/routines in groups is positively associated with disclosure and belonging.</p>
+<p>While correlational, this study has the benefit of examining naturally occurring classes. As such, I expected a wide range in students’ experiences related to classroom-based disclosure. This diversity of class environments introduces noise but also increases generalizability. In the study, I sought to address three hypotheses:</p>
+<p>HQ1: Students who report greater prompting of disclosure in class or groups will report greater actual disclosure in those classes or groups.</p>
+<p>HQ2: Students who report greater disclosure in class or groups will report higher feelings of belonging in the class and at their institution.</p>
+<p>HQ3: Students’ belonging in class will be positively correlated with their belonging at the institution.</p>
+<div id="what-did-i-do" class="section level3">
+<h3>What did I do?</h3>
+<p>I posted an advertisement on Prolific inviting college students who were currently taking one or more online courses to participate in an online survey about their experiences in online/blended classes. Students who agreed to participate were redirected to the Qualtrics survey platform. They were asked questions about their feelings of belonging at their institution overall. They were then asked to focus on one particular online class that they were currently taking (hereafter, the “target” class). If they were taking more than one online class, they were asked to focus on whichever class met earliest in the week. Next, they were asked questions about their feelings of belonging in the target class. Participants indicated whether they met in groups in the target class and, if so, they answered additional questions about their experiences in those groups.</p>
+</div>
+<div id="how-did-we-analyze-the-data" class="section level3">
+<h3>How did we analyze the data?</h3>
+<p>To assess if prompting disclosure predicted reported disclosure and reported disclosure predicted belonging, I conducted a path analysis. In addition to testing the direct effects pictured, I also tested indirect effects of prompting disclosure on belonging through actual disclosure for both the class and group levels. I included the following covariates: gender (dummy coded with female as the reference class), race (dummy coded with White as the reference class), number of classmates known prior to beginning the course, and number of group members known prior to beginning the course.</p>
+</div>
+<div id="what-did-i-find" class="section level3">
+<h3>What did I find?</h3>
+<div id="correlations" class="section level4">
+<h4>Correlations</h4>
+<pre class="r"><code>correlations &lt;- study1 %&gt;%
+        select(class_belong_comp4, school_belong_comp4, class_disclose_comp2, group_disclose_comp2, cdiscl_prompt_comp2, gdiscl_prompt_comp2)
+
+rcorr(as.matrix(correlations))</code></pre>
+<pre><code>##                      class_belong_comp4 school_belong_comp4
+## class_belong_comp4                 1.00                0.54
+## school_belong_comp4                0.54                1.00
+## class_disclose_comp2               0.28                0.16
+## group_disclose_comp2               0.23                0.22
+## cdiscl_prompt_comp2                0.20                0.12
+## gdiscl_prompt_comp2                0.11                0.14
+##                      class_disclose_comp2 group_disclose_comp2
+## class_belong_comp4                   0.28                 0.23
+## school_belong_comp4                  0.16                 0.22
+## class_disclose_comp2                 1.00                 0.71
+## group_disclose_comp2                 0.71                 1.00
+## cdiscl_prompt_comp2                  0.53                 0.45
+## gdiscl_prompt_comp2                  0.41                 0.52
+##                      cdiscl_prompt_comp2 gdiscl_prompt_comp2
+## class_belong_comp4                  0.20                0.11
+## school_belong_comp4                 0.12                0.14
+## class_disclose_comp2                0.53                0.41
+## group_disclose_comp2                0.45                0.52
+## cdiscl_prompt_comp2                 1.00                0.73
+## gdiscl_prompt_comp2                 0.73                1.00
+## 
+## n
+##                      class_belong_comp4 school_belong_comp4
+## class_belong_comp4                  301                 301
+## school_belong_comp4                 301                 301
+## class_disclose_comp2                301                 301
+## group_disclose_comp2                178                 178
+## cdiscl_prompt_comp2                 301                 301
+## gdiscl_prompt_comp2                 178                 178
+##                      class_disclose_comp2 group_disclose_comp2
+## class_belong_comp4                    301                  178
+## school_belong_comp4                   301                  178
+## class_disclose_comp2                  301                  178
+## group_disclose_comp2                  178                  178
+## cdiscl_prompt_comp2                   301                  178
+## gdiscl_prompt_comp2                   178                  178
+##                      cdiscl_prompt_comp2 gdiscl_prompt_comp2
+## class_belong_comp4                   301                 178
+## school_belong_comp4                  301                 178
+## class_disclose_comp2                 301                 178
+## group_disclose_comp2                 178                 178
+## cdiscl_prompt_comp2                  301                 178
+## gdiscl_prompt_comp2                  178                 178
+## 
+## P
+##                      class_belong_comp4 school_belong_comp4
+## class_belong_comp4                      0.0000             
+## school_belong_comp4  0.0000                                
+## class_disclose_comp2 0.0000             0.0053             
+## group_disclose_comp2 0.0024             0.0028             
+## cdiscl_prompt_comp2  0.0005             0.0346             
+## gdiscl_prompt_comp2  0.1339             0.0536             
+##                      class_disclose_comp2 group_disclose_comp2
+## class_belong_comp4   0.0000               0.0024              
+## school_belong_comp4  0.0053               0.0028              
+## class_disclose_comp2                      0.0000              
+## group_disclose_comp2 0.0000                                   
+## cdiscl_prompt_comp2  0.0000               0.0000              
+## gdiscl_prompt_comp2  0.0000               0.0000              
+##                      cdiscl_prompt_comp2 gdiscl_prompt_comp2
+## class_belong_comp4   0.0005              0.1339             
+## school_belong_comp4  0.0346              0.0536             
+## class_disclose_comp2 0.0000              0.0000             
+## group_disclose_comp2 0.0000              0.0000             
+## cdiscl_prompt_comp2                      0.0000             
+## gdiscl_prompt_comp2  0.0000</code></pre>
+<p>Everything except group prompted disclosure was correlated, which was not correlated with belonging at either level.</p>
+<p>In response to H3, class and school belonging were correlated! To the best of my knowledge, this is the first study to show that they are correlated, but distinct, constructs. When considering belonging interventions, this has important ramifications- as we should consider whether we’re influencing class or school belonging.</p>
+<p>Class belonging and school belonging r=.54, p&lt;.001</p>
+</div>
+</div>
+<div id="full-model" class="section level3">
+<h3>Full Model</h3>
+<p>The first model combined class disclosure and group disclosure into a single model.</p>
+<p>Model Test User Model:</p>
+<p>Test statistic 126.697</p>
+<p>Degrees of freedom 35</p>
+<p>P-value (Chi-square) 0.000</p>
+<p>Comparative Fit Index (CFI) 0.669</p>
+<p>RMSEA 0.156</p>
+<p>SRMR 0.115</p>
+<p>The fit is not very good for this model, which is a concern. 9941 bootstrap draws were completed before it terminated, so slightly less than 10,000.</p>
+<p>Regressions:</p>
+<pre><code>                     Estimate  Std.Err  z-value  P(&gt;|z|)</code></pre>
+<p>Class belonging</p>
+<p>Key variables</p>
+<pre><code>Class disclosure        0.203    0.230    0.881    0.378
+
+Class prompted discl    0.191    0.189    1.010    0.313
+
+Group disclosure        0.082    0.195    0.419    0.675
+
+Group prompted discl   -0.065    0.213   -0.306    0.759</code></pre>
+<p>Others</p>
+<pre><code>Asian                  -0.783    0.351   -2.232    0.026
+
+Classmates known        0.427    0.143    2.990    0.003   </code></pre>
+<p>School belonging</p>
+<p>Key variables</p>
+<pre><code>Class disclosure       -0.161    0.188   -0.856    0.392
+
+Class prompted discl    0.232    0.165    1.403    0.161
+
+Group disclosure        0.241    0.151    1.597    0.110
+
+Group prompted discl   -0.136    0.192   -0.706    0.480  </code></pre>
+<p>Others</p>
+<pre><code>Asian                  -0.676    0.306   -2.209    0.027  
+
+Classmates known        0.288    0.143    2.021    0.043    </code></pre>
+<p>Covariances:</p>
+<pre><code>                                Estimate  Std.Err  z-value  P(&gt;|z|)</code></pre>
+<p>Class and Group disclosure 0.549 0.115 4.777 0.000</p>
+<p>Class and school belonging 0.487 0.086 5.650 0.000</p>
+<p>Neither class disclosure nor group disclosure significantly predicted either class or institutional belonging. However, prompted disclosure in class was a significant predictor of class disclosure, and group prompted disclosure predicted group disclosure.</p>
+<p>Several of the covariates were also significant predictors of belonging. In particular, number of classmates known prior to the class significantly predicted both institutional belonging and class belonging. Asian students reported significantly lower class and institutional belonging than White students. Of note, none of the Asian students in my sample were international students.</p>
+<p>The covariance between class disclosure and group disclosure was very high, which suggests that there may be substantial collinearity between the two variables. Because of this, I decided to conduct path analyses separately for the class and group disclosure variables.</p>
+</div>
+<div id="class-only-model" class="section level3">
+<h3>Class only model</h3>
+<p>Model Test User Model:</p>
+<p>Test statistic 11.453</p>
+<p>Degrees of freedom 7</p>
+<p>P-value (Chi-square) 0.120</p>
+<p>Comparative Fit Index (CFI) 0.982</p>
+<p>RMSEA 0.046</p>
+<p>SRMR 0.021</p>
+<p>This model is a much better fit for the data.</p>
+<p>10,000 bootstrap draws completed</p>
+<p>Regressions:</p>
+<pre><code>                     Estimate  Std.Err  z-value  P(&gt;|z|)</code></pre>
+<p>Class belonging</p>
+<p>Key variables</p>
+<pre><code>Class disclosure        0.341    0.102    3.329    0.001
+
+Class prompted discl    0.102    0.099    1.034    0.301</code></pre>
+<p>Others</p>
+<pre><code>Asian                  -0.386    0.231   -1.674    0.094
+
+Nonbinary                  -0.829    0.273   -3.034    0.002
+
+Classmates known        0.127    0.064    1.978    0.048   </code></pre>
+<p>School belonging</p>
+<p>Key variables</p>
+<pre><code>Class disclosure        0.124    0.097    1.278    0.201
+
+Class prompted discl    0.071    0.082    0.861    0.389</code></pre>
+<p>Others</p>
+<pre><code>Asian                  -0.388    0.203   -1.906    0.057  
+
+Classmates known        0.288    0.143    2.021    0.043    </code></pre>
+<p>Indirect effects</p>
+<pre><code>total_class               0.260    0.081    3.226    0.001
+
+total_school            0.228    0.080    2.855    0.004</code></pre>
+<p>Class disclosure significantly predicts class belonging, Asian was marginal at both levels, and non-binary appears as a significant predictor. Once more, classmates known is a significant predictor of at both levels.</p>
+<p>The indirect effects were significant for the effect of class prompted disclosure on belonging through actual class disclosure, suggesting that although the main effect is not significant the effect of prompted disclosure on belonging is mediated by class disclosure.</p>
+<p>The result here is that class disclosure is predicting class belonging, which is partial support for the model that I propose!</p>
+</div>
+<div id="group-model" class="section level3">
+<h3>Group model</h3>
+<p>Model Test User Model:</p>
+<p>Test statistic 6.880</p>
+<p>Degrees of freedom 8</p>
+<p>P-value (Chi-square) 0.550</p>
+<p>Comparative Fit Index (CFI) 1.000</p>
+<p>RMSEA 0.000</p>
+<p>SRMR 0.027</p>
+<p>9949 bootstrap draws were performed.</p>
+<p>Regressions:</p>
+<pre><code>                     Estimate  Std.Err  z-value  P(&gt;|z|)</code></pre>
+<p>Class belonging</p>
+<p>Key variables</p>
+<pre><code>Group disclosure        0.224    0.131    1.717    0.086 
+
+Group prompted discl    0.098    0.157    0.625    0.532</code></pre>
+<p>Others</p>
+<pre><code>Asian                   0.829    0.351   -2.361    0.018
+
+Classmates known        0.445    0.135    3.304    0.001  
+
+Group known            -0.229    0.122   -1.881    0.060  </code></pre>
+<p>School belonging</p>
+<pre><code>Group disclosure        0.153    0.114    1.341    0.180
+
+Group prompted discl    0.030    0.147    0.204    0.839 </code></pre>
+<p>Others</p>
+<pre><code>Asian              -0.691    0.301   -2.295    0.022
+
+Classmates known        0.271    0.136    1.992    0.046</code></pre>
+<p>MEDIATION</p>
+<pre><code>Group disclosure                                                     
+
+Group prompted discl    0.427    0.127    3.358    0.001
+
+ total_class            0.523    0.162    3.226    0.001
+
+ total_group            0.126    0.142    0.885    0.376 </code></pre>
+<p>Similar to the full model, prompted disclosure in groups was a significant predictor of group disclosure. Group disclosure was not a significant predictor of either institutional belonging or class belonging. The direct effect of group prompted disclosure on belonging was nonsignificant, though the indirect effect was significant for class belonging but nonsignificant for institutional belonging. Similar to class belonging, the significant indirect effect is due to the correlation between group prompted disclosure and actual disclosure, and the inclusion of additional significant predictors in the model.</p>
+<p>As in both previous models, Asian students reported significantly lower belonging in class and at their institution, and number of classmates known prior was a significant positive predictor of belonging at the class and institutional levels.</p>
+<p>In this model, number of group members known prior was also a significant predictor of class belonging.</p>
+</div>
+<div id="problems-with-the-study" class="section level3">
+<h3>Problems with the study</h3>
+<p>One of the major issues is that we lost a lot of power including groups- but this also underscores the importance of disclosure interventions. According to the study, nearly half of participants don’t use groups in their online classes, and two-thirds reported no or almost no disclosure!</p>
+<p>If we find that disclosure can play an important role in promoting belonging, then this absence could be very problematic. Looking forward, that’s what we hope to test in Study 2.</p>
+</div>
+</div>
 
 
 
